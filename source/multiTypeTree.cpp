@@ -31,7 +31,7 @@ void printTree(const std::string &prefix, MultiTypeTree *node, bool isLast) {
 }
 
 std::unique_ptr<MultiTypeTree> initBlankNode(AvailableTypes dataType) {
-    std::unique_ptr<MultiTypeTree> node;
+    std::unique_ptr<MultiTypeTree> node = nullptr;
 
     switch (dataType) {
         case INTEGER: {
@@ -152,6 +152,10 @@ void IntegerNumberType::printData() {
     std::cout << data << std::endl;
 }
 
+size_t IntegerNumberType::getDataHash() {
+    return std::hash<int32_t>{}(data);
+}
+
 RealNumberType::RealNumberType(double_t data) : data(data) {
 
 }
@@ -174,6 +178,10 @@ bool RealNumberType::readData(std::fstream &fs) {
 
 void RealNumberType::printData() {
     std::cout << data << std::endl;
+}
+
+size_t RealNumberType::getDataHash() {
+    return std::hash<double_t>{}(data);
 }
 
 StringType::StringType(std::string data) : data(std::move(data)) {
@@ -203,4 +211,8 @@ bool StringType::readData(std::fstream &fs) {
 
 void StringType::printData() {
     std::cout << data << std::endl;
+}
+
+size_t StringType::getDataHash() {
+    return std::hash<std::string>{}(data);
 }
